@@ -11,7 +11,7 @@
     h1 { color: #333; }
     .qa-section { margin-top: 1.5rem; padding: 1rem; background: #eef; border-radius: 8px; }
     .question { font-weight: bold; margin-bottom: 0.5rem; }
-    .feedback { margin-top: 0.5rem; color: green; font-style: italic; }
+    .feedback { margin-top: 0.5rem; color: green; font-style: italic; white-space: pre-wrap; line-height: 1.5; background: #e6ffe6; padding: 0.5rem; border-radius: 5px; }
   </style>
 </head>
 <body>
@@ -105,7 +105,9 @@
         const data = await res.json();
 
         if (res.ok) {
-          feedbackDiv.innerHTML = data.feedback;
+          // Format response text into paragraphs
+          const formatted = data.feedback.replace(/\n\n+/g, '</p><p>').replace(/\n/g, ' ');
+          feedbackDiv.innerHTML = `<p>${formatted}</p>`;
         } else {
           feedbackDiv.innerHTML = `<span style='color:red;'>${data.error || 'Error analyzing answer.'}</span>`;
         }
